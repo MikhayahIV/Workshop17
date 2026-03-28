@@ -1,7 +1,11 @@
 package umc.pp.Workshop17.model.customer;
 
 import jakarta.persistence.*;
+import umc.pp.Workshop17.model.vehicle.Vehicle;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -29,9 +33,11 @@ public class Customer {
     @Column(nullable = false)
     private LocalDateTime registrationDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
+    @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Vehicle> vehicles = new HashSet<>();
 
     protected Customer() {
     }
@@ -68,13 +74,18 @@ public class Customer {
         return address;
     }
 
+    public Set<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
     public static class Builder{
         private Customer customer = new Customer();
 
-        public Builder personalInfo(String firstName, String lastName, String taxId, String phoneNumber){
+        public Builder personalInfo(String firstName, String lastName, String taxId, String email ,String phoneNumber){
             customer.firstName = firstName;
             customer.lastName = lastName;
             customer.taxId = taxId;
+            customer.email = email;
             customer.phoneNumber = phoneNumber;
             return  this;
         }
@@ -82,6 +93,11 @@ public class Customer {
         public Builder withAddress(Address address){
             customer.address = address;
             return  this;
+        }
+
+        public Builder addVehicle(Vehicle vehicle){
+            customer.getVehicles().add(vehicle);
+            return this;
         }
 
         public Customer build(){
