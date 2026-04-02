@@ -111,6 +111,11 @@ public class Vehicle {
             return this;
         }
 
+        public Builder withId(UUID uuid) {
+            vehicle.uuid = uuid;
+            return this;
+        }
+
         public Vehicle build(){
             if(vehicle.licensePlate == null || vehicle.licensePlate.isBlank() ||
                     vehicle.owner == null){
