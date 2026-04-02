@@ -11,7 +11,9 @@ import umc.pp.Workshop17.model.vehicle.Vehicle;
 import umc.pp.Workshop17.repository.customer.CustomerRepository;
 import umc.pp.Workshop17.repository.vehicle.VehicleRepository;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class VehicleService {
@@ -35,16 +37,33 @@ public class VehicleService {
         Vehicle savedVehicle = vehicleRepository.save(vehicle);
         return vehicleMapper.toResponse(savedVehicle);
     }
-    // equals insert into vehicle
 
-    //todo criar os metodos de listar todos e atualizar veiculo
 
     public VehicleResponseDTO findById(UUID uuid){
         return vehicleRepository.findById(uuid)
                 .map(vehicleMapper::toResponse)
-                .orElseThrow(() -> new RuntimeException("Veiculo nao encontrado "));
+                .orElseThrow(() -> new EntityNotFoundException("Veiculo nao encontrado "));
     }
 
+    public List<VehicleResponseDTO> findAll(){
+        return vehicleRepository.findAll().stream()
+                .map(vehicleMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public VehicleResponseDTO update(UUID uuid, VehicleRequestDTO dto){
+        Vehicle existingVehicle = vehicleRepository.findById(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado"));
+        Customer originalOwner = existingVehicle.getOwner();
+        Vehicle updatedVehicle = new Vehicle.Builder()
+                .withId(uuid)
+                .basicInfo(dto.brand(), dto.model(), dto.licensePlate(), dto.manufacturingYear(), dto.color())
+                .technicalDetails(dto.vin(), dto.fuel(), dto.engineVersion(), dto.transmissionType(), dto.cylinderCount())
+                .forOwner(originalOwner)
+                .build();
+        return vehicleMapper.toResponse(vehicleRepository.save(updatedVehicle));
+    }
 
     @Transactional
     public void delete(UUID uuid){
