@@ -48,7 +48,9 @@ public class VehicleService {
 
     @Transactional
     public void delete(UUID uuid){
-        if(vehicleRepository.existsById(uuid)) throw  new EntityNotFoundException("Nao foi possivel deletar, veiculo nao encotrado");
+        if(!vehicleRepository.existsById(uuid)) {
+            throw  new EntityNotFoundException("Nao foi possivel deletar, veiculo nao encotrado");
+        }
         vehicleRepository.deleteById(uuid);
     }
 
