@@ -82,6 +82,10 @@ public class Mechanic {
         return isActive;
     }
 
+    public void toggleStatus(){
+        this.isActive = !this.isActive;
+    }
+
     public static class Builder{
         private  Mechanic mechanic = new Mechanic();
 

@@ -26,7 +26,7 @@ public class VehicleMapper {
                 vehicle.getManufactureYear(),
                 vehicle.getColor(),
                 vehicle.getEngineVersion(),
-                vehicle.getOwner().getFirstName()
+                vehicle.getOwner().getTaxId()
         );
     }
 }
