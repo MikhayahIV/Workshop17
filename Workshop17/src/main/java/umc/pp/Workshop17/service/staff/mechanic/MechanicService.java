@@ -67,7 +67,7 @@ public class MechanicService implements GenerateEmployee {
                 .orElseThrow(()-> new EntityNotFoundException("mecanico nao encontrado"));
         mechanic.toggleStatus();
 
-       return mapper.toResponse(mechanicrepository.save(mechanic));
+       return mapper.toResponse(mechanic);
     }
 
 

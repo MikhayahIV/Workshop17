@@ -96,7 +96,7 @@ public class Customer {
         return vehicles;
     }
 
-    public void toogleStatus(){
+    public void toggleStatus(){
         this.isActive = !this.isActive;
     }
 
