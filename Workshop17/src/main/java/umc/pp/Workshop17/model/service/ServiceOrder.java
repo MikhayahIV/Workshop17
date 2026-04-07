@@ -56,6 +56,17 @@ public class ServiceOrder {
 
     }
 
+    private ServiceOrder(Builder builder){
+        this.protocolNumber = builder.protocolNumber;
+        this.customerComplaint = builder.customerComplaint;
+        this.entryDate = builder.entryDate;
+        this.estimatedDeliveryDate = builder.estimatedDeliveryDate;
+        this.customer = builder.customer;
+        this. vehicle = builder.vehicle;
+        this.mechanic = builder.mechanic;
+        this.entryChecklist = builder.entryChecklist;
+    }
+
     public Long getId() {
         return id;
     }
@@ -113,40 +124,46 @@ public class ServiceOrder {
     }
 
     public static class Builder {
-        private ServiceOrder so = new ServiceOrder();
 
-        public Builder initiate(Customer customer, Vehicle vehicle, String complaint) {
-            so.customer = customer;
-            so.vehicle = vehicle;
-            so.customerComplaint = complaint;
-            so.entryDate = LocalDateTime.now();
-            so.status = ServiceOrderStatus.OPEN;
+        private String protocolNumber;
+        private String customerComplaint;
+        private LocalDateTime entryDate;
+        private LocalDateTime estimatedDeliveryDate;
+        private Customer customer;
+        private Vehicle vehicle;
+        private Mechanic mechanic;
+        private EntryCheckList entryChecklist;
+
+        public Builder initiate(Customer customer, Vehicle vehicle, String complaint, String protocolNumber) {
+            this.customer = customer;
+            this.vehicle = vehicle;
+            this.customerComplaint = complaint;
+            this.protocolNumber = protocolNumber;
+            this.entryDate = LocalDateTime.now();
             return this;
         }
 
         public Builder withChecklist(EntryCheckList checklist) {
-            so.entryChecklist = checklist;
+            this.entryChecklist = checklist;
             return this;
         }
 
         public Builder assignMechanic(Mechanic mechanic) {
-            so.mechanic = mechanic;
+            this.mechanic = mechanic;
             return this;
         }
 
-        public Builder setEstimates(LocalDateTime estimatedDate, String protocol) {
-            so.estimatedDeliveryDate = estimatedDate;
-            so.protocolNumber = protocol;
+        public Builder setEstimates(LocalDateTime estimatedDate) {
+            this.estimatedDeliveryDate = estimatedDate;
             return this;
         }
 
         public ServiceOrder build() {
-            if (so.customer == null || so.vehicle == null || so.protocolNumber == null) {
+            if (this.customer == null || this.vehicle == null || this.protocolNumber == null) {
                 throw new IllegalStateException("Mandatory OS fields missing.");
             }
-            return so;
+            return new ServiceOrder(this);
         }
     }
-
 
 }

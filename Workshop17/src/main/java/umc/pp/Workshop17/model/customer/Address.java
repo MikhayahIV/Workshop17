@@ -20,6 +20,17 @@ public class Address {
     protected Address() {
     }
 
+    private Address(Builder builder){
+        this.street = builder.street;
+        this.number = builder.number;
+        this.complement = builder.complement;
+        this.neighborhood = builder.neighborhood;
+        this.city = builder.city;
+        this.state = builder.state;
+        this.zipCode = builder.zipCode;
+    }
+
+
     public String getStreet() {
         return street;
     }
@@ -50,30 +61,37 @@ public class Address {
 
     public static class Builder{
 
-        private Address address = new Address();
+        private String street;
+        private String number;
+        private String complement;
+        private String neighborhood;
+        private String city;
+        private String state;
+        private String zipCode;
+
 
         public Builder streetInfo(String street,String number,String complement){
-            address.street = street;
-            address.number = number;
-            address.complement = complement;
+            this.street = street;
+            this.number = number;
+            this.complement = complement;
             return this;
         }
 
 
-        public Builder location(String neighborhood,String city,String state,String zipcode){
-            address.neighborhood = neighborhood;
-            address.city = city;
-            address.state = state;
-            address.zipCode = zipcode;
+        public Builder location(String neighborhood,String city,String state,String zipCode){
+            this.neighborhood = neighborhood;
+            this.city = city;
+            this.state = state;
+            this.zipCode = zipCode;
             return this;
         }
 
         public Address build(){
-            if(address.street == null || address.street.isBlank() ||
-                    address.zipCode == null || address.zipCode.isBlank()){
+            if(this.street == null || this.street.isBlank() ||
+                    this.zipCode == null || this.zipCode.isBlank()){
                 throw new IllegalStateException("Address construction failed: Street and ZIP Code are mandatory fields.");
             }
-            return address;
+            return new Address(this);
         }
     }
 }

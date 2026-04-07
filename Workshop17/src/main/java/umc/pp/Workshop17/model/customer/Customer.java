@@ -1,6 +1,7 @@
 package umc.pp.Workshop17.model.customer;
 
 import jakarta.persistence.*;
+import umc.pp.Workshop17.model.customer.Address;
 import umc.pp.Workshop17.model.vehicle.Vehicle;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class Customer {
     @Column(nullable = false)
     private String phoneNumber;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime registrationDate;
 
     @Embedded
@@ -39,7 +40,24 @@ public class Customer {
     @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Vehicle> vehicles = new HashSet<>();
 
+    private boolean isActive = true;
+
     protected Customer() {
+    }
+
+    private Customer(Builder builder){
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.taxId = builder.taxId;
+        this.email = builder.email;
+        this.phoneNumber = builder.phoneNumber;
+        this.registrationDate = builder.registrationDate;
+        this.address = builder.address;
+        this.vehicles = builder.vehicles;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 
     public UUID getUuid() {
@@ -78,31 +96,46 @@ public class Customer {
         return vehicles;
     }
 
+    public void toogleStatus(){
+        this.isActive = !this.isActive;
+    }
+
     public static class Builder{
-        private Customer customer = new Customer();
+
+        private String firstName;
+        private String lastName;
+        private String taxId;
+        private String email;
+        private String phoneNumber;
+        private LocalDateTime registrationDate;
+        private Address address;
+        private Set<Vehicle> vehicles = new HashSet<>();
 
         public Builder personalInfo(String firstName, String lastName, String taxId, String email ,String phoneNumber){
-            customer.firstName = firstName;
-            customer.lastName = lastName;
-            customer.taxId = taxId;
-            customer.email = email;
-            customer.phoneNumber = phoneNumber;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.taxId = taxId;
+            this.email = email;
+            this.phoneNumber = phoneNumber;
             return  this;
         }
 
         public Builder withAddress(Address address){
-            customer.address = address;
+            this.address = address;
             return  this;
         }
 
         public Builder addVehicle(Vehicle vehicle){
-            customer.getVehicles().add(vehicle);
+            this.vehicles.add(vehicle);
             return this;
         }
 
         public Customer build(){
-            if(customer.registrationDate == null) customer.registrationDate = LocalDateTime.now();
-            return customer;
+            if (this.taxId == null || this.taxId.isEmpty()) {
+                throw new IllegalArgumentException("Não é possível criar um Customer sem o CPF (taxId)!");
+            }
+            if(this.registrationDate == null) this.registrationDate = LocalDateTime.now();
+            return new Customer(this);
         }
     }
 }

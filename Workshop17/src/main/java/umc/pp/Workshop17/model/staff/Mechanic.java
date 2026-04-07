@@ -38,6 +38,18 @@ public class Mechanic {
     protected Mechanic() {
     }
 
+    private Mechanic(Builder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.taxId = builder.taxId;
+        this.email = builder.email;
+        this.phone = builder.phone;
+        this.employeeId = builder.employeeId;
+        this.specialty = builder.specialty;
+        this.certificationLevel = builder.certificationLevel;
+        this.hireDate = builder.hireDate;
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -87,31 +99,39 @@ public class Mechanic {
     }
 
     public static class Builder{
-        private  Mechanic mechanic = new Mechanic();
+        private String firstName;
+        private String lastName;
+        private String taxId;
+        private String email;
+        private String phone;
+        private String employeeId;
+        private String specialty;
+        private String certificationLevel;
+        private LocalDate hireDate;
 
         public Builder personalInfo(String firstName, String lastName,String taxId,String email,String phone){
-            mechanic.firstName = firstName;
-            mechanic.lastName = lastName;
-            mechanic.taxId = taxId;
-            mechanic.email = email;
-            mechanic.phone = phone;
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.taxId = taxId;
+            this.email = email;
+            this.phone = phone;
             return this;
         }
 
         public Builder professionalInfo(String employeeId,String specialty, String level, LocalDate hireDate){
-            mechanic.employeeId = employeeId;
-            mechanic.specialty = specialty;
-            mechanic.certificationLevel = level;
-            mechanic.hireDate = hireDate;
+            this.employeeId = employeeId;
+            this.specialty = specialty;
+            this.certificationLevel = level;
+            this.hireDate = hireDate;
             return  this;
         }
 
         public Mechanic build(){
-            if(mechanic.hireDate == null) mechanic.hireDate = LocalDate.now();
-            if(mechanic.employeeId == null || mechanic.employeeId.isBlank() || mechanic.taxId == null || mechanic.taxId.isBlank()){
+            if(this.hireDate == null) this.hireDate = LocalDate.now();
+            if(this.employeeId == null || this.employeeId.isBlank() || this.taxId == null || this.taxId.isBlank()){
                 throw  new IllegalStateException("Mechanic must have an Employee ID and Tax ID.");
             }
-            return mechanic;
+            return new Mechanic(this);
         }
 
     }

@@ -43,44 +43,134 @@ public class EntryCheckList {
 
     }
 
+    private EntryCheckList(Builder builder){
+        this.entryMileage = builder.entryMileage;
+        this.fuelLevel = builder.fuelLevel;
+        this.hasScratches = builder.hasScratches;
+        this.hasDents = builder.hasDents;
+        this.hasSpareTire = builder.hasSpareTire;
+        this.hasPersonalItem = builder.hasPersonalItem;
+        this.functionalHeadLine = builder.functionalHeadLine;
+        this.hasLugWrench = builder.hasLugWrench;
+        this.itemsLeftInVehicle = builder.itemsLeftInVehicle;
+        this.tireCondition = builder.tireCondition;
+        this.inspectorName = builder.inspectorName;
+        this.inspectionDate = builder.inspectionDate;
+        this.generalNote = builder.generalNote;
+        this.vehicle = builder.vehicle;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Integer getEntryMileage() {
+        return entryMileage;
+    }
+
+    public String getFuelLevel() {
+        return fuelLevel;
+    }
+
+    public boolean isHasScratches() {
+        return hasScratches;
+    }
+
+    public boolean isHasDents() {
+        return hasDents;
+    }
+
+    public boolean isHasSpareTire() {
+        return hasSpareTire;
+    }
+
+    public boolean isHasPersonalItem() {
+        return hasPersonalItem;
+    }
+
+    public boolean isFunctionalHeadLine() {
+        return functionalHeadLine;
+    }
+
+    public boolean isHasLugWrench() {
+        return hasLugWrench;
+    }
+
+    public String getItemsLeftInVehicle() {
+        return itemsLeftInVehicle;
+    }
+
+    public String getTireCondition() {
+        return tireCondition;
+    }
+
+    public String getInspectorName() {
+        return inspectorName;
+    }
+
+    public LocalDateTime getInspectionDate() {
+        return inspectionDate;
+    }
+
+    public String getGeneralNote() {
+        return generalNote;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
     public static class Builder{
-        private EntryCheckList checkList = new EntryCheckList();
+        private Integer entryMileage;
+        private String fuelLevel;
+        private boolean hasScratches;
+        private boolean hasDents;
+        private boolean hasSpareTire;
+        private boolean hasPersonalItem;
+        private boolean functionalHeadLine;
+        private boolean hasLugWrench;
+        private String itemsLeftInVehicle;
+        private String tireCondition;
+        private String inspectorName;
+        private LocalDateTime inspectionDate;
+        private String generalNote;
+        private Vehicle vehicle;
 
         public Builder vehicleInfo(Vehicle vehicle,Integer mileage,String fuel,String inspector){
-            checkList.vehicle = vehicle;
-            checkList.entryMileage = mileage;
-            checkList.fuelLevel = fuel;
-            checkList.inspectorName = inspector;
+            this.vehicle = vehicle;
+            this.entryMileage = mileage;
+            this.fuelLevel = fuel;
+            this.inspectorName = inspector;
             return this;
         }
 
         public Builder damageAndItems(boolean scratches,boolean dents,boolean personalItem,String itemsDetail){
-            checkList.hasScratches = scratches;
-            checkList.hasDents = dents;
-            checkList.hasPersonalItem = personalItem;
-            checkList.itemsLeftInVehicle = itemsDetail;
+            this.hasScratches = scratches;
+            this.hasDents = dents;
+            this.hasPersonalItem = personalItem;
+            this.itemsLeftInVehicle = itemsDetail;
             return this;
         }
 
         public Builder technicalCheck(boolean headline,boolean spareTire,boolean lugWrench,String tires){
-            checkList.functionalHeadLine = headline;
-            checkList.hasSpareTire = spareTire;
-            checkList.hasLugWrench = lugWrench;
-            checkList.tireCondition = tires;
+            this.functionalHeadLine = headline;
+            this.hasSpareTire = spareTire;
+            this.hasLugWrench = lugWrench;
+            this.tireCondition = tires;
             return this;
         }
 
         public Builder notes(String note){
-            checkList.generalNote = note;
+            this.generalNote = note;
             return this;
         }
 
         public EntryCheckList build(){
-            if(checkList.inspectionDate == null) checkList.inspectionDate = LocalDateTime.now();
-            if(checkList.vehicle == null || checkList.entryMileage == null || checkList.inspectorName == null){
+            if(this.inspectionDate == null) this.inspectionDate = LocalDateTime.now();
+            if(this.vehicle == null || this.entryMileage == null || this.inspectorName == null){
                 throw new IllegalStateException("Missing mandatory inspection data (Vehicle, Mileage or Inspector).");
             }
-            return checkList;
+            return new EntryCheckList(this);
         }
     }
 }

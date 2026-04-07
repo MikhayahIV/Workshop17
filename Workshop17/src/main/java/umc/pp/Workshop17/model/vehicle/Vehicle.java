@@ -37,6 +37,21 @@ public class Vehicle {
 
     protected Vehicle(){}
 
+    private Vehicle(Builder builder) {
+        this.uuid = builder.uuid;
+        this.licensePlate = builder.licensePlate;
+        this.model = builder.model;
+        this.brand = builder.brand;
+        this.manufactureYear = builder.manufactureYear;
+        this.color = builder.color;
+        this.vin = builder.vin;
+        this.fuelType = builder.fuelType;
+        this.engineVersion = builder.engineVersion;
+        this.transmissionVersion = builder.transmissionVersion;
+        this.cylinderCount = builder.cylinderCount;
+        this.owner = builder.owner;
+    }
+
     public UUID getUuid() {
         return uuid;
     }
@@ -86,42 +101,53 @@ public class Vehicle {
     }
 
     public static class Builder{
-        private Vehicle vehicle = new Vehicle();
+        private UUID uuid;
+        private String licensePlate;
+        private String model;
+        private String brand;
+        private Integer manufactureYear;
+        private String color;
+        private String vin;
+        private String fuelType;
+        private String engineVersion;
+        private String transmissionVersion;
+        private Integer cylinderCount;
+        private Customer owner;
 
         public Builder basicInfo(String brand,String model,String plate, Integer year, String color){
-            vehicle.brand = brand;
-            vehicle.model = model;
-            vehicle.manufactureYear = year;
-            vehicle.color = color;
-            vehicle.licensePlate = plate;
+            this.brand = brand;
+            this.model = model;
+            this.manufactureYear = year;
+            this.color = color;
+            this.licensePlate = plate;
             return this;
         }
 
         public Builder technicalDetails(String vin, String fuel,String engine,String transmission, Integer cylinder){
-            vehicle.vin = vin;
-            vehicle.fuelType = fuel;
-            vehicle.engineVersion = engine;
-            vehicle.transmissionVersion = transmission;
-            vehicle.cylinderCount = cylinder;
+            this.vin = vin;
+            this.fuelType = fuel;
+            this.engineVersion = engine;
+            this.transmissionVersion = transmission;
+            this.cylinderCount = cylinder;
             return  this;
         }
 
         public Builder forOwner(Customer owner){
-            vehicle.owner = owner;
+            this.owner = owner;
             return this;
         }
 
         public Builder withId(UUID uuid) {
-            vehicle.uuid = uuid;
+            this.uuid = uuid;
             return this;
         }
 
         public Vehicle build(){
-            if(vehicle.licensePlate == null || vehicle.licensePlate.isBlank() ||
-                    vehicle.owner == null){
+            if(this.licensePlate == null || this.licensePlate.isBlank() ||
+                    this.owner == null){
                 throw new IllegalStateException("Vehicle must have a license plate and an owner.");
             }
-            return vehicle;
+            return new Vehicle(this);
         }
     }
 }
