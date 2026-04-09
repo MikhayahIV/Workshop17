@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.pp.Workshop17.dto.staff.MechanicRequestDTO;
 import umc.pp.Workshop17.dto.staff.MechanicResponseDTO;
+import umc.pp.Workshop17.dto.staff.update.MechanicUpdateExpertiseDTO;
+import umc.pp.Workshop17.dto.staff.update.MechanicUpdatePersonalInfoDTO;
 import umc.pp.Workshop17.exception.BusinessException;
+import umc.pp.Workshop17.exception.ResourceNotFoundException;
 import umc.pp.Workshop17.mapper.staff.mechanic.MechanicMapper;
 import umc.pp.Workshop17.model.staff.Mechanic;
 import umc.pp.Workshop17.repository.service.ServiceOrderRepository;
@@ -40,7 +43,7 @@ public class MechanicService implements GenerateEmployee {
 
     @Transactional
     public MechanicResponseDTO create(MechanicRequestDTO dto){
-        if(mechanicrepository.existsByTaxID(dto.taxId())){
+        if(mechanicrepository.existsBytaxId(dto.taxId())){
             throw new BusinessException("Já existe um mecânico cadastrado com este documento.");
         }
             String employeeId = generateEmployeeID();
@@ -52,6 +55,12 @@ public class MechanicService implements GenerateEmployee {
         return mechanicrepository.findById(uuid)
                 .map(mapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Mecanico nao encontrado"));
+    }
+
+    public MechanicResponseDTO findByTaxId(String taxId){
+        return mechanicrepository.findBytaxId(taxId)
+                .map(mapper::toResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Mecanico nao encontrado"));
     }
 
     public List<MechanicResponseDTO> listAll(){
@@ -69,6 +78,22 @@ public class MechanicService implements GenerateEmployee {
 
        return mapper.toResponse(mechanic);
     }
+
+
+    @Transactional
+    public MechanicResponseDTO updatePersonalInfo(UUID uuid, MechanicUpdatePersonalInfoDTO dto){
+        Mechanic mechanic = mechanicrepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Mecanico nao encontrado"));
+        mechanic.updatePersonalData(dto.firstName(),dto.lastName(),dto.phone(),dto.email());
+        return mapper.toResponse(mechanic);
+    }
+
+    @Transactional
+    public MechanicResponseDTO updateExpertise(UUID uuid, MechanicUpdateExpertiseDTO dto){
+        Mechanic mechanic = mechanicrepository.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Mecanico nao encontrado"));
+        mechanic.updateExpertise(dto.specialty(),dto.certificationLevel());
+        return mapper.toResponse(mechanic);
+    }
+
 
 
     @Transactional

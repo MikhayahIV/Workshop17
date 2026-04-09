@@ -53,16 +53,13 @@ public class VehicleService {
 
     @Transactional
     public VehicleResponseDTO update(UUID uuid, VehicleRequestDTO dto){
-        Vehicle existingVehicle = vehicleRepository.findById(uuid)
+        Vehicle vehicle = vehicleRepository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado"));
-        Customer originalOwner = existingVehicle.getOwner();
-        Vehicle updatedVehicle = new Vehicle.Builder()
-                .withId(uuid)
-                .basicInfo(dto.brand(), dto.model(), dto.licensePlate(), dto.manufacturingYear(), dto.color())
-                .technicalDetails(dto.vin(), dto.fuel(), dto.engineVersion(), dto.transmissionType(), dto.cylinderCount())
-                .forOwner(originalOwner)
-                .build();
-        return vehicleMapper.toResponse(vehicleRepository.save(updatedVehicle));
+        vehicle.updateTechnicalData(dto.brand(), dto.model(), dto.licensePlate(),
+                dto.manufacturingYear(), dto.color(), dto.vin(),
+                dto.fuel(), dto.engineVersion(), dto.transmissionType(),
+                dto.cylinderCount());
+        return vehicleMapper.toResponse(vehicle);
     }
 
     @Transactional

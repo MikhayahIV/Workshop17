@@ -1,6 +1,7 @@
 package umc.pp.Workshop17.model.customer;
 
 import jakarta.persistence.*;
+import umc.pp.Workshop17.exception.BusinessException;
 import umc.pp.Workshop17.model.customer.Address;
 import umc.pp.Workshop17.model.vehicle.Vehicle;
 
@@ -98,6 +99,19 @@ public class Customer {
 
     public void toggleStatus(){
         this.isActive = !this.isActive;
+    }
+
+
+    public void updatePersonalData(String firstName, String lastName, String phone, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phone;
+        this.email = email;
+    }
+
+    public void changeAddress(Address newAddress) {
+        if (newAddress == null) throw new BusinessException("Endereço não pode ser nulo.");
+        this.address = newAddress;
     }
 
     public static class Builder{

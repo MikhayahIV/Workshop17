@@ -18,7 +18,7 @@ public class CustomerMapper {
                 .build();
     }
 
-    private Address addAddress(AddressRequestDTO dto){
+    public Address addAddress(AddressRequestDTO dto){
         if(dto == null) return null;
 
         return new Address.Builder()
@@ -42,7 +42,7 @@ public class CustomerMapper {
                 customer.getRegistrationDate());
     }
 
-    private AddressResponseDTO addressToResponse(Address address){
+    public AddressResponseDTO addressToResponse(Address address){
         if(address == null) return null;
 
         return new AddressResponseDTO(

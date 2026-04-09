@@ -9,6 +9,6 @@ import java.util.UUID;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
-    boolean existByTaxId(String taxID);
-    Optional<Customer> findByTaxId(String taxID);
+    boolean existsBytaxId(String taxID);
+    Optional<Customer> findBytaxId(String taxID);
 }

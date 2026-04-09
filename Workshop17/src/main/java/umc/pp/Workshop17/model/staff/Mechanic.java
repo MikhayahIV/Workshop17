@@ -98,6 +98,18 @@ public class Mechanic {
         this.isActive = !this.isActive;
     }
 
+    public void updatePersonalData(String firstName, String lastName, String phone, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public void updateExpertise(String specialty, String certificationLevel ) {
+        this.specialty = specialty;
+        this.certificationLevel = certificationLevel;
+    }
+
     public static class Builder{
         private String firstName;
         private String lastName;

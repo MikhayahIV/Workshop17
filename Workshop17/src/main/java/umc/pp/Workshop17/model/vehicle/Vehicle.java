@@ -100,6 +100,21 @@ public class Vehicle {
         return owner;
     }
 
+    public void updateTechnicalData(String brand, String model, String licensePlate, Integer manufacturingYear,
+                                    String color, String vin, String fuel, String engineVersion,
+                                    String transmissionType, Integer cylinderCount) {
+        this.brand = brand;
+        this.model = model;
+        this.licensePlate = licensePlate;
+        this.manufactureYear = manufacturingYear;
+        this.color = color;
+        this.vin = vin;
+        this.fuelType = fuel;
+        this.engineVersion = engineVersion;
+        this.transmissionVersion = transmissionType;
+        this.cylinderCount = cylinderCount;
+    }
+
     public static class Builder{
         private UUID uuid;
         private String licensePlate;
