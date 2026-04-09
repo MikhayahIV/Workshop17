@@ -1,12 +1,13 @@
-package umc.pp.Workshop17.commnad.serviceOrder;
+package umc.pp.Workshop17.commnad.entryCheckList;
 
+import umc.pp.Workshop17.commnad.Command;
 import umc.pp.Workshop17.dto.services.entryCheckList.EntryCheckListRequestDTO;
 import umc.pp.Workshop17.dto.services.entryCheckList.EntryCheckListResponseDTO;
 import umc.pp.Workshop17.service.services.EntryCheckListService;
 
 import java.util.UUID;
 
-public class CreateEntryCheckListCommand implements Command<EntryCheckListResponseDTO>{
+public class CreateEntryCheckListCommand implements Command<EntryCheckListResponseDTO> {
 
     private final EntryCheckListService service;
     private final EntryCheckListRequestDTO data;

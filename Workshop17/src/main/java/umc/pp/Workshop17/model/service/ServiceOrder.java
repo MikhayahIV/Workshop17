@@ -139,6 +139,11 @@ public class ServiceOrder {
         this.finishDate = LocalDateTime.now();
     }
 
+    public void cancelOS(){
+        this.status = ServiceOrderStatus.CANCELLED;
+        this.finishDate = LocalDateTime.now();
+    }
+
     public void updateEstimatedDate(LocalDateTime newDate) {
         this.estimatedDeliveryDate = newDate;
     }

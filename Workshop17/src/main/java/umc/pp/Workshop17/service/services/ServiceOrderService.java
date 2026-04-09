@@ -103,6 +103,13 @@ public class ServiceOrderService implements GenerateProtocol {
     }
 
     @Transactional
+    public ServiceOrderResponseDTO cancel(Long id, String reason){
+        ServiceOrder so = soRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Ordem de servico nao encontrada"));
+        so.cancelOS();
+        return mapper.toResponse(so);
+    }
+
+    @Transactional
     public void delete(Long id) {
         if (!soRepository.existsById(id)) {
             throw new ResourceNotFoundException("Ordem de Serviço não encontrada");
