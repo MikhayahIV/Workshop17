@@ -1,8 +1,10 @@
 package umc.pp.Workshop17.dto.customer;
 
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import umc.pp.Workshop17.model.customer.Address;
 
@@ -31,5 +33,5 @@ public record CustomerRequestDTO(
          String phoneNumber,
 
 
-         @NotBlank AddressRequestDTO address
+         @NotNull @Valid AddressRequestDTO address
 ){}

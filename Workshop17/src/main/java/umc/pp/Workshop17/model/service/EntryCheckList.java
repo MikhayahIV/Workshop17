@@ -120,6 +120,11 @@ public class EntryCheckList {
         return vehicle;
     }
 
+    public void updateNotes(String generalNote, String itemsLeft) {
+        this.generalNote = generalNote;
+        this.itemsLeftInVehicle = itemsLeft;
+    }
+
     public static class Builder{
         private Integer entryMileage;
         private String fuelLevel;

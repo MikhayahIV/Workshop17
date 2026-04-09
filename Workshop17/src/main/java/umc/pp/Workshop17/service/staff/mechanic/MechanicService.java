@@ -13,7 +13,7 @@ import umc.pp.Workshop17.mapper.staff.mechanic.MechanicMapper;
 import umc.pp.Workshop17.model.staff.Mechanic;
 import umc.pp.Workshop17.repository.service.ServiceOrderRepository;
 import umc.pp.Workshop17.repository.staff.MechanicRepository;
-import umc.pp.Workshop17.service.staff.utility.GenerateEmployee;
+import umc.pp.Workshop17.service.utility.GenerateEmployee;
 
 import java.time.LocalDate;
 import java.util.List;

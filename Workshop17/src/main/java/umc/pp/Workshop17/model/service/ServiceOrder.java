@@ -123,6 +123,26 @@ public class ServiceOrder {
         return entryChecklist;
     }
 
+    public ServiceOrderStatus getStatus() {
+        return status;
+    }
+
+    public void updateExecutionDetails(String diagnostic, BigDecimal parts, BigDecimal labor) {
+        this.mechanicDiagnostic = diagnostic;
+        this.partsValue = parts != null ? parts : BigDecimal.ZERO;
+        this.laborValue = labor != null ? labor : BigDecimal.ZERO;
+        this.totalValue = this.partsValue.add(this.laborValue);
+    }
+
+    public void finishOS() {
+        this.status = ServiceOrderStatus.COMPLETED;
+        this.finishDate = LocalDateTime.now();
+    }
+
+    public void updateEstimatedDate(LocalDateTime newDate) {
+        this.estimatedDeliveryDate = newDate;
+    }
+
     public static class Builder {
 
         private String protocolNumber;

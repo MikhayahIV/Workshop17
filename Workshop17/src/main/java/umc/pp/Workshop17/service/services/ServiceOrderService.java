@@ -1,13 +1,14 @@
 package umc.pp.Workshop17.service.services;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.pp.Workshop17.dto.services.ServiceOrder.ServiceOrderRequestDTO;
 import umc.pp.Workshop17.dto.services.ServiceOrder.ServiceOrderResponseDTO;
 import umc.pp.Workshop17.dto.services.ServiceOrder.update.ServiceOrderUpdateDTO;
 import umc.pp.Workshop17.exception.ResourceNotFoundException;
 import umc.pp.Workshop17.mapper.services.ServiceOrderMapper;
 import umc.pp.Workshop17.model.customer.Customer;
+import umc.pp.Workshop17.model.service.ServiceOrder;
 import umc.pp.Workshop17.model.staff.Mechanic;
 import umc.pp.Workshop17.model.vehicle.Vehicle;
 import umc.pp.Workshop17.repository.customer.CustomerRepository;
@@ -22,7 +23,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ServiceOrder implements GenerateProtocol {
+public class ServiceOrderService implements GenerateProtocol {
 
     private final ServiceOrderRepository soRepository;
     private final CustomerRepository customerRepository;
@@ -30,7 +31,7 @@ public class ServiceOrder implements GenerateProtocol {
     private final MechanicRepository mechanicRepository;
     private final ServiceOrderMapper mapper;
 
-    public ServiceOrder(ServiceOrderRepository soRepository, CustomerRepository customerRepository, VehicleRepository vehicleRepository, MechanicRepository mechanicRepository, ServiceOrderMapper mapper) {
+    public ServiceOrderService(ServiceOrderRepository soRepository, CustomerRepository customerRepository, VehicleRepository vehicleRepository, MechanicRepository mechanicRepository, ServiceOrderMapper mapper) {
         this.soRepository = soRepository;
         this.customerRepository = customerRepository;
         this.vehicleRepository = vehicleRepository;
@@ -56,14 +57,16 @@ public class ServiceOrder implements GenerateProtocol {
             mechanic = mechanicRepository.findById(dto.mechanicId())
                     .orElseThrow(() -> new ResourceNotFoundException("Mecânico não encontrado"));
         }
+        LocalDateTime estimated = (dto.estimatedDeliveryDate() != null)
+                ? dto.estimatedDeliveryDate() : LocalDateTime.now().plusDays(3);
         String protocol = generateProtocol();
-        umc.pp.Workshop17.model.service.ServiceOrder so = mapper.toEntity(
+        ServiceOrder so = mapper.toEntity(
                 dto,
                 protocol,
                 customer,
                 vehicle,
                 mechanic,
-                dto.estimatedDeliveryDate()
+                estimated
         );
         return mapper.toResponse(soRepository.save(so));
     }
@@ -82,7 +85,7 @@ public class ServiceOrder implements GenerateProtocol {
 
     @Transactional
     public ServiceOrderResponseDTO updateExecution(Long id, ServiceOrderUpdateDTO dto) {
-        umc.pp.Workshop17.model.service.ServiceOrder so = soRepository.findById(id)
+        ServiceOrder so = soRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OS não encontrada"));
         so.updateExecutionDetails(dto.mechanicDiagnostic(), dto.partsValue(), dto.laborValue());
         if (dto.estimatedDeliveryDate() != null) {
@@ -93,7 +96,7 @@ public class ServiceOrder implements GenerateProtocol {
 
     @Transactional
     public ServiceOrderResponseDTO finish(Long id) {
-        umc.pp.Workshop17.model.service.ServiceOrder so = soRepository.findById(id)
+        ServiceOrder so = soRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ordem de Serviço não encontrada"));
         so.finishOS();
         return mapper.toResponse(so);
