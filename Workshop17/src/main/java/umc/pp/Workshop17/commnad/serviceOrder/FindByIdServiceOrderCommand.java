@@ -4,21 +4,19 @@ import umc.pp.Workshop17.commnad.Command;
 import umc.pp.Workshop17.dto.services.ServiceOrder.ServiceOrderResponseDTO;
 import umc.pp.Workshop17.service.services.ServiceOrderService;
 
-public class CancelServiceOrderCommand implements Command<ServiceOrderResponseDTO> {
+public class FindByIdServiceOrderCommand implements Command<ServiceOrderResponseDTO> {
 
-    private ServiceOrderService service;
-    private Long id;
+    private final ServiceOrderService service;
 
-    public CancelServiceOrderCommand(ServiceOrderService service, Long id) {
+    private final Long id;
+
+    public FindByIdServiceOrderCommand(ServiceOrderService service, Long id) {
         this.service = service;
         this.id = id;
     }
 
-
-
-
     @Override
     public ServiceOrderResponseDTO execute() {
-        return service.cancel(id);
+        return service.findById(id);
     }
 }

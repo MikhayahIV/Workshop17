@@ -21,6 +21,8 @@ public class MechanicMapper {
                 mechanic.getFirstName(),
                 mechanic.getLastName(),
                 mechanic.getSpecialty(),
+                mechanic.getEmail(),
+                mechanic.getTaxId(),
                 mechanic.getPhone(),
                 mechanic.isActive());
     }

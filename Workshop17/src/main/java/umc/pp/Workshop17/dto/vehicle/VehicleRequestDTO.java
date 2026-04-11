@@ -28,7 +28,7 @@ public record VehicleRequestDTO(
         @NotBlank(message = "A cor é obrigatória")
         String color,
 
-        String fuel,
+        String fuelType,
 
         String engineVersion,
         String transmissionType,

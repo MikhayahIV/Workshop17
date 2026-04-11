@@ -9,7 +9,7 @@ public record CustomerResponseDTO(
         String lastName,
         String taxId,
         String email,
-        String phoneNumber,
+        String phone,
         AddressResponseDTO address,
         boolean isActive,
         LocalDateTime registrationDate

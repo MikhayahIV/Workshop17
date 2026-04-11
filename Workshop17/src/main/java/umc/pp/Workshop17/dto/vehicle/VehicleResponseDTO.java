@@ -6,10 +6,14 @@ public record VehicleResponseDTO(
 
         UUID uuid,
         String licensePlate,
+        String vin,
         String brand,
         String model,
         Integer manufacturingYear,
         String color,
-        String fullDescription,
-        String ownerName
+        String fuelType,
+        String engineVersion,
+        String transmissionVersion,
+        Integer cylinderCount,
+        String customerId
 ){ }

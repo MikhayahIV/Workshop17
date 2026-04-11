@@ -7,6 +7,8 @@ public record MechanicResponseDTO(
         String firstName,
         String lastName,
         String specialty,
+        String email,
+        String taxId,
         String phone,
         boolean isActive
 ){}

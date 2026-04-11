@@ -62,7 +62,6 @@ public class EntryCheckListService {
     public List<EntryCheckListResponseDTO> listByVehicle(UUID vehicleId) {
         Vehicle vehicle = vehicleRepository.findById(vehicleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Veículo não encontrado"));
-
         return repository.findByVehicle(vehicle).stream()
                 .map(mapper::toCheckListResponse)
                 .collect(Collectors.toList());

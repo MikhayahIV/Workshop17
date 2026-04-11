@@ -12,7 +12,7 @@ public class VehicleMapper {
     public Vehicle toEntity(VehicleRequestDTO dto, Customer customer) {
         return new Vehicle.Builder()
                 .basicInfo(dto.brand(), dto.model(), dto.licensePlate(), dto.manufacturingYear(), dto.color())
-                .technicalDetails(dto.vin(), dto.fuel(), dto.engineVersion(), dto.transmissionType(), dto.cylinderCount())
+                .technicalDetails(dto.vin(), dto.fuelType(), dto.engineVersion(), dto.transmissionType(), dto.cylinderCount())
                 .forOwner(customer)
                 .build();
     }
@@ -21,11 +21,15 @@ public class VehicleMapper {
         return new VehicleResponseDTO(
                 vehicle.getUuid(),
                 vehicle.getLicensePlate(),
+                vehicle.getVin(),
                 vehicle.getBrand(),
                 vehicle.getModel(),
                 vehicle.getManufactureYear(),
                 vehicle.getColor(),
+                vehicle.getFuelType(),
                 vehicle.getEngineVersion(),
+                vehicle.getTransmissionVersion(),
+                vehicle.getCylinderCount(),
                 vehicle.getOwner().getTaxId()
         );
     }

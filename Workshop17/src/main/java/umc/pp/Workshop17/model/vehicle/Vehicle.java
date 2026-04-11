@@ -31,7 +31,7 @@ public class Vehicle {
     private String transmissionVersion; // manual,Automático
     private Integer cylinderCount; // 3 cilindros, etc
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer owner;
 
@@ -115,6 +115,9 @@ public class Vehicle {
         this.cylinderCount = cylinderCount;
     }
 
+    public void newOwner(Customer owner){
+        this.owner = owner;
+    }
     public static class Builder{
         private UUID uuid;
         private String licensePlate;

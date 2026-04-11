@@ -13,7 +13,7 @@ public class CustomerMapper {
     public Customer toEntity(CustomerRequestDTO dto){
 
         return new Customer.Builder()
-                .personalInfo(dto.firstName(), dto.lastName(), dto.taxId(), dto.email(), dto.phoneNumber())
+                .personalInfo(dto.firstName(), dto.lastName(), dto.taxId(), dto.email(), dto.phone())
                 .withAddress(addAddress(dto.address()))
                 .build();
     }

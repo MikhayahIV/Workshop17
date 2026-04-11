@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.pp.Workshop17.dto.vehicle.VehicleRequestDTO;
 import umc.pp.Workshop17.dto.vehicle.VehicleResponseDTO;
+import umc.pp.Workshop17.exception.ResourceNotFoundException;
 import umc.pp.Workshop17.mapper.vehicle.VehicleMapper;
 import umc.pp.Workshop17.model.customer.Customer;
 import umc.pp.Workshop17.model.vehicle.Vehicle;
@@ -39,8 +40,8 @@ public class VehicleService {
     }
 
 
-    public VehicleResponseDTO findById(UUID uuid){
-        return vehicleRepository.findById(uuid)
+    public VehicleResponseDTO findByPlate(String plate){
+        return vehicleRepository.findBylicensePlate(plate)
                 .map(vehicleMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Veiculo nao encontrado "));
     }
@@ -55,10 +56,12 @@ public class VehicleService {
     public VehicleResponseDTO update(UUID uuid, VehicleRequestDTO dto){
         Vehicle vehicle = vehicleRepository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Veículo não encontrado"));
+        Customer newOwner = customerRepository.findById(dto.customerId()).orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
         vehicle.updateTechnicalData(dto.brand(), dto.model(), dto.licensePlate(),
                 dto.manufacturingYear(), dto.color(), dto.vin(),
-                dto.fuel(), dto.engineVersion(), dto.transmissionType(),
+                dto.fuelType(), dto.engineVersion(), dto.transmissionType(),
                 dto.cylinderCount());
+        vehicle.newOwner(newOwner);
         return vehicleMapper.toResponse(vehicle);
     }
 

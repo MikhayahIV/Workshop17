@@ -30,7 +30,7 @@ public record CustomerRequestDTO(
 
          @NotBlank
          @Pattern(regexp = "^\\d{11}$", message = "O celular deve conter 11 dígitos numéricos (DDD + número)")
-         String phoneNumber,
+         String phone,
 
 
          @NotNull @Valid AddressRequestDTO address
