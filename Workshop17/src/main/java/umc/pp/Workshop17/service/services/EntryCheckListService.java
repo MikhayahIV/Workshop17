@@ -67,7 +67,7 @@ public class EntryCheckListService {
                 .collect(Collectors.toList());
     }
 
-   @Transactional(readOnly = true)
+   @Transactional
     public void delete(Long id) {
         if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Checklist não encontrado");

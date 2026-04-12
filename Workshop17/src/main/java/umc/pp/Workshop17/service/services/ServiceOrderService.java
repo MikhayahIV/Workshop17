@@ -71,12 +71,14 @@ public class ServiceOrderService implements GenerateProtocol {
         return mapper.toResponse(soRepository.save(so));
     }
 
+    @Transactional(readOnly = true)
     public ServiceOrderResponseDTO findById(Long id) {
         return soRepository.findById(id)
                 .map(mapper::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Ordem de Serviço não encontrada"));
     }
 
+    @Transactional(readOnly = true)
     public List<ServiceOrderResponseDTO> listAll() {
         return soRepository.findAll().stream()
                 .map(mapper::toResponse)

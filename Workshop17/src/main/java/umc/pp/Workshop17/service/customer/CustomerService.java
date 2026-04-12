@@ -40,12 +40,14 @@ public class CustomerService {
         return customerMapper.toResponse(savedCustomer);
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponseDTO findByTaxId(String taxId){
         return customerRepository.findBytaxId(taxId)
                 .map(customerMapper::toResponse)
                 .orElseThrow(()-> new ResourceNotFoundException("Usuario nao encontrado"));
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponseDTO> findAll(){
         return customerRepository.findAll().stream()
                 .map(customerMapper::toResponse)

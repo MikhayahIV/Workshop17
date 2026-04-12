@@ -51,18 +51,21 @@ public class MechanicService implements GenerateEmployee {
             return  mapper.toResponse(mechanicrepository.save(mechanic));
     }
 
+    @Transactional(readOnly = true)
     public MechanicResponseDTO findById(UUID uuid){
         return mechanicrepository.findById(uuid)
                 .map(mapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Mecanico nao encontrado"));
     }
 
+    @Transactional(readOnly = true)
     public MechanicResponseDTO findByTaxId(String taxId){
         return mechanicrepository.findBytaxId(taxId)
                 .map(mapper::toResponse)
                 .orElseThrow(() -> new ResourceNotFoundException("Mecanico nao encontrado"));
     }
 
+    @Transactional(readOnly = true)
     public List<MechanicResponseDTO> listAll(){
         return mechanicrepository.findAll().stream()
                 .map(mapper::toResponse)

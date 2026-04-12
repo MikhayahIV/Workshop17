@@ -40,12 +40,14 @@ public class VehicleService {
     }
 
 
+    @Transactional(readOnly = true)
     public VehicleResponseDTO findByPlate(String plate){
         return vehicleRepository.findBylicensePlate(plate)
                 .map(vehicleMapper::toResponse)
                 .orElseThrow(() -> new EntityNotFoundException("Veiculo nao encontrado "));
     }
 
+    @Transactional(readOnly = true)
     public List<VehicleResponseDTO> findAll(){
         return vehicleRepository.findAll().stream()
                 .map(vehicleMapper::toResponse)
