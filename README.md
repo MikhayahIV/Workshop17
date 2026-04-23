@@ -39,7 +39,8 @@ classDiagram
         +boolean isActive
     }
 
-    class Address <<Value Object>> {
+    class Address {
+        <<Value Object>>
         +String street
         +String number
         +String complement
