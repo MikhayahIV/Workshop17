@@ -141,6 +141,7 @@ Markdown
 ```bash
 cd backend
 ./mvnw spring-boot:run
+```
 
 
 ### **Frontend**
@@ -148,6 +149,7 @@ cd backend
 cd frontend
 npm install
 npm run dev
+```
 
 
 🛠️ Funcionalidades
