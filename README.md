@@ -1,5 +1,3 @@
-Parte 1: Introdução e Arquitetura
-Markdown
 # 🔧 Workshop Management System (Sistema de Gestão de Oficina)
 
 Sistema full-stack robusto para o gerenciamento de oficinas mecânicas, focado em integridade de dados e processos de engenharia de software.
