@@ -120,6 +120,7 @@ classDiagram
     ServiceOrder "0..*" -- "1" Customer : @ManyToOne
     ServiceOrder "0..*" -- "1" Vehicle : @ManyToOne
     ServiceOrder "0..*" -- "1" Mechanic : @ManyToOne
+
 🚀 Tecnologias
 Backend
 Java 21 | Spring Boot 3 | Spring Data JPA | H2/PostgreSQL
