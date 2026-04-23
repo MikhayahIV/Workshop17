@@ -23,8 +23,6 @@ O projeto utiliza **Layered Architecture** (Arquitetura em Camadas), garantindo 
 ---
 
 ## 📊 Modelagem de Dados (Entidades JPA)
-Parte 2: O Diagrama (Copie o bloco abaixo)
-Snippet de código
 classDiagram
     class Customer {
         +UUID uuid
@@ -120,8 +118,6 @@ classDiagram
     ServiceOrder "0..*" -- "1" Mechanic : @ManyToOne
 
     
-Parte 3: Tecnologias e Finalização
-Markdown
 ---
 
 ## 🚀 Tecnologias
