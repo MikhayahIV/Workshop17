@@ -121,9 +121,7 @@ classDiagram
     ServiceOrder "0..*" -- "1" Vehicle : @ManyToOne
     ServiceOrder "0..*" -- "1" Mechanic : @ManyToOne
 
-Isso está acontecendo porque, em algumas visualizações, o Markdown interpreta os blocos de código de forma restritiva. Para garantir que o GitHub renderize tudo corretamente, vou enviar o arquivo dividido em blocos de código isolados.
 
-Copie e cole um após o outro no seu arquivo README.md.
 
 Parte 1: Introdução e Arquitetura
 Markdown
