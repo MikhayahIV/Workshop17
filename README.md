@@ -143,15 +143,6 @@ cd backend
 ./mvnw spring-boot:run
 ```
 
-
-### **Frontend**
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-
 🛠️ Funcionalidades
 ✅ Gestão de Clientes: Cadastro com VO Address e validação de CPF.
 
