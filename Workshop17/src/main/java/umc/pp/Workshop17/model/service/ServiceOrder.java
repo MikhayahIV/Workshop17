@@ -153,7 +153,7 @@ public class ServiceOrder {
     }
 
     public void updateEstimatedDate(LocalDateTime newDate) {
-        if(newDate == null || newDate.isBefore(entryDate)){
+        if(newDate == null || newDate.toLocalDate().isBefore(this.entryDate.toLocalDate())){
             throw new IllegalArgumentException("Invalid date");
         }
         this.estimatedDeliveryDate = newDate;
