@@ -89,10 +89,20 @@ public class ServiceOrderService implements GenerateProtocol {
     public ServiceOrderResponseDTO updateExecution(Long id, ServiceOrderUpdateDTO dto) {
         ServiceOrder so = soRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("OS não encontrada"));
-        so.updateExecutionDetails(dto.mechanicDiagnostic(), dto.partsValue(), dto.laborValue());
-        if (dto.estimatedDeliveryDate() != null) {
+        if(dto.estimatedDeliveryDate() != null){
             so.updateEstimatedDate(dto.estimatedDeliveryDate());
         }
+        PricingCalculator pricingCalculator = new LoyaltyDiscountDecorator(
+                new UrgencyTaxDecorator(
+                        new BasePricingCalculator()
+                )
+        );
+        so.updateExecutionDetails(
+                dto.mechanicDiagnostic(),
+                dto.partsValue(),
+                dto.laborValue(),
+                pricingCalculator
+        );
         return mapper.toResponse(so);
     }
 

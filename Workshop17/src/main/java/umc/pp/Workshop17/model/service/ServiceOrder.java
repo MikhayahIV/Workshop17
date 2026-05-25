@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import umc.pp.Workshop17.model.customer.Customer;
 import umc.pp.Workshop17.model.staff.Mechanic;
 import umc.pp.Workshop17.model.vehicle.Vehicle;
+import umc.pp.Workshop17.service.services.PricingCalculator;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -127,10 +128,14 @@ public class ServiceOrder {
         return status;
     }
 
-    public void updateExecutionDetails(String diagnostic, BigDecimal parts, BigDecimal labor) {
+    public void updateExecutionDetails(String diagnostic, BigDecimal parts, BigDecimal labor, PricingCalculator pricingCalculator) {
         this.mechanicDiagnostic = diagnostic;
         this.partsValue = parts != null ? parts : BigDecimal.ZERO;
         this.laborValue = labor != null ? labor : BigDecimal.ZERO;
+        this.totalValue = pricingCalculator.calculate(this);
+    }
+
+    private void calculateTotal(){
         this.totalValue = this.partsValue.add(this.laborValue);
     }
 
@@ -140,11 +145,17 @@ public class ServiceOrder {
     }
 
     public void cancelOS(){
+        if(this.status == ServiceOrderStatus.COMPLETED){
+            throw  new IllegalStateException("Completed OS cannot be cancelled");
+        }
         this.status = ServiceOrderStatus.CANCELLED;
         this.finishDate = LocalDateTime.now();
     }
 
     public void updateEstimatedDate(LocalDateTime newDate) {
+        if(newDate == null || newDate.isBefore(entryDate)){
+            throw new IllegalArgumentException("Invalid date");
+        }
         this.estimatedDeliveryDate = newDate;
     }
 
