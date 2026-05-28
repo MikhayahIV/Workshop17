@@ -250,7 +250,7 @@ classDiagram
 
 | Camada | Tecnologias |
 | :--- | :--- |
-| **Backend** | Java 21, Spring Boot 3, Spring Data JPA, H2/PostgreSQL |
+| **Backend** | Java 21, Spring Boot 3, Spring Data JPA, Spring Web ,H2/PostgreSQL |
 | **Frontend** | React, TypeScript, Vite, TanStack Query, Zod, Tailwind CSS |
 
 ---
